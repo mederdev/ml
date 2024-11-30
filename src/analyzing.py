@@ -17,7 +17,7 @@ data = data.dropna(subset=[label_column])
 
 
 def clean_text(text):
-    text = re.sub(r"http\S+", "", text)
+    text = re.sub(r"https?://\S+", "", text)
     text = re.sub(r"[^a-zA-Zа-яА-Я\s]", "", text)
     text = text.lower()
     return text
@@ -48,7 +48,7 @@ model.fit(X_train_vect, y_train)
 
 y_pred = model.predict(X_test_vect)
 
-st.title("Анализ настроений")
+st.title("Анализ текста")
 input_text = st.text_area("Введите текст для анализа:")
 
 if st.button("Анализировать"):
@@ -62,7 +62,7 @@ label_counts = data[label_column].value_counts()
 fig, ax = plt.subplots()
 
 ax.bar(label_counts.index, label_counts.values)
-ax.set_xticks(range(len(label_counts.index)))
+ax.set_xticks(list(label_counts.index))
 ax.set_xticklabels(label_counts.index, rotation=90)
 
 st.pyplot(fig)
